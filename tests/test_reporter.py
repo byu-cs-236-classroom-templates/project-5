@@ -5,7 +5,7 @@ from project5.datalogprogram import Parameter, Predicate, Rule
 from project5.relation import Relation
 from project5.reporter import (
     project_4_report,
-    # project_5_report,
+    project_5_report,
     query_report,
     rule_report,
 )
@@ -202,6 +202,193 @@ r(A,B)? Yes(3)
 
     # when
     answer = project_4_report(2, rule_evals, query_evals)
+
+    # then
+    assert expect == answer
+
+
+def test_given_dependency_graph_rule_evals_query_evals_when_project_5_report_then_expected():
+    # given
+    dependency_graph = {"R0": [], "R1": ["R2"], "R2": ["R0", "R1"]}
+    rule_0 = Rule(
+        Predicate("r", [Parameter.id("E"), Parameter.id("F")]),
+        [Predicate("f", [Parameter.id("E"), Parameter.id("F")])],
+    )
+    rule_1 = Rule(
+        Predicate("r", [Parameter.id("X"), Parameter.id("Y")]),
+        [
+            Predicate("g", [Parameter.id("X"), Parameter.id("R")]),
+            Predicate("f", [Parameter.id("Y"), Parameter.id("S")]),
+        ],
+    )
+    rule_2 = Rule(
+        Predicate("g", [Parameter.id("C"), Parameter.id("D")]),
+        [
+            Predicate("f", [Parameter.id("C"), Parameter.id("X")]),
+            Predicate("r", [Parameter.id("X"), Parameter.id("D")]),
+        ],
+    )
+    query_0 = Predicate("g", [Parameter.string("'4'"), Parameter.id("B")])
+    query_1 = Predicate("r", [Parameter.id("E"), Parameter.string("'3'")])
+    query_2 = Predicate("f", [Parameter.id("A"), Parameter.id("B")])
+    query_3 = Predicate("g", [Parameter.id("A"), Parameter.id("B")])
+    query_4 = Predicate("r", [Parameter.id("A"), Parameter.id("B")])
+
+    rule_evals = [
+        (
+            Relation(["e", "f"], init_r_tuples),
+            rule_0,
+            Relation(["e", "f"], init_r_tuples.union(init_f_tuples)),
+        ),
+        (
+            Relation(["e", "f"], init_r_tuples.union(init_f_tuples)),
+            rule_1,
+            Relation(
+                ["e", "f"],
+                init_r_tuples.union(init_f_tuples).union(
+                    {("'3'", "'1'"), ("'3'", "'4'")}
+                ),
+            ),
+        ),
+        (
+            Relation(["c", "d"], init_g_tuples),
+            rule_2,
+            Relation(
+                ["c", "d"],
+                init_g_tuples.union({("'4'", "'1'"), ("'4'", "'4'"), ("'4'", "'5'")}),
+            ),
+        ),
+        (
+            Relation(
+                ["e", "f"],
+                init_r_tuples.union(init_f_tuples).union(
+                    {("'3'", "'1'"), ("'3'", "'4'")}
+                ),
+            ),
+            rule_1,
+            Relation(
+                ["e", "f"],
+                init_r_tuples.union(init_f_tuples).union(
+                    {("'3'", "'1'"), ("'3'", "'4'"), ("'4'", "'1'"), ("'4'", "'4'")}
+                ),
+            ),
+        ),
+        (
+            Relation(
+                ["c", "d"],
+                init_g_tuples.union({("'4'", "'1'"), ("'4'", "'4'"), ("'4'", "'5'")}),
+            ),
+            rule_2,
+            Relation(
+                ["c", "d"],
+                init_g_tuples.union({("'4'", "'1'"), ("'4'", "'4'"), ("'4'", "'5'")}),
+            ),
+        ),
+        (
+            Relation(
+                ["e", "f"],
+                init_r_tuples.union(init_f_tuples).union(
+                    {("'3'", "'1'"), ("'3'", "'4'"), ("'4'", "'1'"), ("'4'", "'4'")}
+                ),
+            ),
+            rule_1,
+            Relation(
+                ["e", "f"],
+                init_r_tuples.union(init_f_tuples).union(
+                    {("'3'", "'1'"), ("'3'", "'4'"), ("'4'", "'1'"), ("'4'", "'4'")}
+                ),
+            ),
+        ),
+        (
+            Relation(
+                ["c", "d"],
+                init_g_tuples.union({("'4'", "'1'"), ("'4'", "'4'"), ("'4'", "'5'")}),
+            ),
+            rule_2,
+            Relation(
+                ["c", "d"],
+                init_g_tuples.union({("'4'", "'1'"), ("'4'", "'4'"), ("'4'", "'5'")}),
+            ),
+        ),
+    ]
+
+    query_evals = [
+        (query_0, Relation(["B"], {("'1'",), ("'4'",), ("'5'",)})),
+        (query_1, Relation(["E"], {("'4'",)})),
+        (query_2, Relation(["A", "B"], {("'1'", "'2'"), ("'4'", "'3'")})),
+        (
+            query_3,
+            Relation(
+                ["A", "B"],
+                {("'3'", "'2'"), ("'4'", "'1'"), ("'4'", "'4'"), ("'4'", "'5'")},
+            ),
+        ),
+        (
+            query_4,
+            Relation(
+                ["A", "B"],
+                {
+                    ("'1'", "'2'"),
+                    ("'3'", "'1'"),
+                    ("'3'", "'4'"),
+                    ("'3'", "'5'"),
+                    ("'4'", "'1'"),
+                    ("'4'", "'3'"),
+                    ("'4'", "'4'"),
+                },
+            ),
+        ),
+    ]
+
+    expect = """Dependency Graph
+R0:
+R1:R2
+R2:R0,R1
+
+Rule Evaluation
+r(E,F) :- f(E,F).
+  e='1', f='2'
+  e='4', f='3'
+r(X,Y) :- g(X,R),f(Y,S).
+  e='3', f='1'
+  e='3', f='4'
+g(C,D) :- f(C,X),r(X,D).
+  c='4', d='1'
+  c='4', d='4'
+  c='4', d='5'
+r(X,Y) :- g(X,R),f(Y,S).
+  e='4', f='1'
+  e='4', f='4'
+g(C,D) :- f(C,X),r(X,D).
+r(X,Y) :- g(X,R),f(Y,S).
+g(C,D) :- f(C,X),r(X,D).
+
+Query Evaluation
+g('4',B)? Yes(3)
+  B='1'
+  B='4'
+  B='5'
+r(E,'3')? Yes(1)
+  E='4'
+f(A,B)? Yes(2)
+  A='1', B='2'
+  A='4', B='3'
+g(A,B)? Yes(4)
+  A='3', B='2'
+  A='4', B='1'
+  A='4', B='4'
+  A='4', B='5'
+r(A,B)? Yes(7)
+  A='1', B='2'
+  A='3', B='1'
+  A='3', B='4'
+  A='3', B='5'
+  A='4', B='1'
+  A='4', B='3'
+  A='4', B='4'"""
+
+    # when
+    answer = project_5_report(dependency_graph, rule_evals, query_evals)
 
     # then
     assert expect == answer
