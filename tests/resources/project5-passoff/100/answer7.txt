@@ -3,7 +3,6 @@ R0:R0,R1
 R1:R0,R1
 
 Rule Evaluation
-SCC: R0,R1
 permutations(b,a,c,d,e,f) :- permutations(a,b,c,d,e,f).
   A='b', B='a', C='c', D='d', E='e', F='f'
 permutations(b,c,d,e,f,a) :- permutations(a,b,c,d,e,f).
@@ -747,7 +746,6 @@ permutations(b,c,d,e,f,a) :- permutations(a,b,c,d,e,f).
   A='c', B='b', C='f', D='e', E='d', F='a'
 permutations(b,a,c,d,e,f) :- permutations(a,b,c,d,e,f).
 permutations(b,c,d,e,f,a) :- permutations(a,b,c,d,e,f).
-12 passes: R0,R1
 
 Query Evaluation
 permutations(a,b,c,d,e,f)? Yes(720)

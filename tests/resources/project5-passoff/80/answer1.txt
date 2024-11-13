@@ -2,11 +2,9 @@ Dependency Graph
 R0:
 
 Rule Evaluation
-SCC: R0
 NameHasID(S,N) :- snap(S,N,A,P).
   n='12345', s='Snoopy'
   n='67890', s='Van Pelt'
-1 passes: R0
 
 Query Evaluation
 snap('67890','Van Pelt','34 Pear','555-5678')? Yes(1)

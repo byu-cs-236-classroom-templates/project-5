@@ -4,12 +4,9 @@ R1:R2
 R2:R0,R1
 
 Rule Evaluation
-SCC: R0
 r(E,F) :- f(E,F).
   e='1', f='2'
   e='4', f='3'
-1 passes: R0
-SCC: R1,R2
 r(X,Y) :- g(X,R),f(Y,S).
   e='3', f='1'
   e='3', f='4'
@@ -23,7 +20,6 @@ r(X,Y) :- g(X,R),f(Y,S).
 g(C,D) :- f(C,X),r(X,D).
 r(X,Y) :- g(X,R),f(Y,S).
 g(C,D) :- f(C,X),r(X,D).
-3 passes: R1,R2
 
 Query Evaluation
 g('4',B)? Yes(3)
