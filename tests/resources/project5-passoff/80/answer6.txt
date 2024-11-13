@@ -8,7 +8,6 @@ R5:R3,R4
 R6:R3,R4
 
 Rule Evaluation
-SCC: R0
 marriedTo(X,Y) :- marriedTo(Y,X).
   x='Anne', y='Fred'
   x='Bea', y='Zed'
@@ -17,8 +16,6 @@ marriedTo(X,Y) :- marriedTo(Y,X).
   x='Jill', y='Jack'
   x='Kim', y='Dan'
 marriedTo(X,Y) :- marriedTo(Y,X).
-2 passes: R0
-SCC: R1
 childOf(X,Y) :- childOf(X,Z),marriedTo(Y,Z).
   x='Anna', y='Dan'
   x='Anne', y='Jack'
@@ -34,8 +31,6 @@ childOf(X,Y) :- childOf(X,Z),marriedTo(Y,Z).
   x='Tim', y='Jill'
   x='Tom', y='Anne'
 childOf(X,Y) :- childOf(X,Z),marriedTo(Y,Z).
-2 passes: R1
-SCC: R3
 descendantOf(X,Y) :- childOf(X,Y).
   x='Anna', y='Dan'
   x='Anna', y='Kim'
@@ -63,8 +58,6 @@ descendantOf(X,Y) :- childOf(X,Y).
   x='Tim', y='Jill'
   x='Tom', y='Anne'
   x='Tom', y='Fred'
-1 passes: R3
-SCC: R4
 descendantOf(X,Y) :- childOf(X,Z),descendantOf(Z,Y).
   x='Anna', y='Jan'
   x='Anna', y='Ned'
@@ -102,8 +95,6 @@ descendantOf(X,Y) :- childOf(X,Z),descendantOf(Z,Y).
   x='Tom', y='Bea'
   x='Tom', y='Zed'
 descendantOf(X,Y) :- childOf(X,Z),descendantOf(Z,Y).
-3 passes: R4
-SCC: R6
 relativeOf(X,Y) :- descendantOf(X,Z),descendantOf(Y,Z).
   x='Anna', y='Anna'
   x='Anna', y='Anne'
@@ -274,8 +265,6 @@ relativeOf(X,Y) :- descendantOf(X,Z),descendantOf(Y,Z).
   x='Tom', y='Sue'
   x='Tom', y='Tim'
   x='Tom', y='Tom'
-1 passes: R6
-SCC: R5
 ancestorOf(X,Y) :- descendantOf(Y,X).
   x='Anne', y='Bill'
   x='Anne', y='Tom'
@@ -337,8 +326,6 @@ ancestorOf(X,Y) :- descendantOf(Y,X).
   x='Zed', y='Sue'
   x='Zed', y='Tim'
   x='Zed', y='Tom'
-1 passes: R5
-SCC: R2
 siblingOf(X,Y) :- childOf(X,Z),childOf(Y,Z).
   x='Anna', y='Anna'
   x='Anna', y='Ron'
@@ -369,7 +356,6 @@ siblingOf(X,Y) :- childOf(X,Z),childOf(Y,Z).
   x='Tim', y='Tim'
   x='Tom', y='Bill'
   x='Tom', y='Tom'
-1 passes: R2
 
 Query Evaluation
 marriedTo('Bea','Zed')? Yes(1)

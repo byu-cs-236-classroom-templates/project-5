@@ -8,7 +8,6 @@ R5:R1,R2,R3,R4
 R6:R5,R6
 
 Rule Evaluation
-SCC: R0,R1,R2,R3,R4,R5,R6
 chars(a) :- combinations(a,b,c,d,e).
   ALL='a'
 be(b,e) :- chars(b),chars(e).
@@ -3480,7 +3479,6 @@ bcd(b,c,d) :- chars(b),chars(c),chars(d).
 ade(a,d,e) :- chars(a),chars(d),chars(e).
 combinations(a,b,c,d,e) :- be(b,e),ce(c,e),bcd(b,c,d),ade(a,d,e).
 combinations(b,c,d,e,a) :- combinations(a,b,c,d,e).
-6 passes: R0,R1,R2,R3,R4,R5,R6
 
 Query Evaluation
 combinations(a,b,c,d,e)? Yes(3125)

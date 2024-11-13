@@ -6,27 +6,17 @@ R3:R0,R1,R2
 R4:R3
 
 Rule Evaluation
-SCC: R2
 DeaWoo(A,B,C,D,E) :- A(E),B(D),A(C),B(B),A(A).
   a='a', b='b', c='a', d='b', e='a'
-1 passes: R2
-SCC: R1
 DeaWoo(A,B,C,D,E) :- A(A),A(B),B(C),A(D),A(E).
   a='a', b='a', c='b', d='a', e='a'
-1 passes: R1
-SCC: R0
 DeaWoo(A,B,C,D,E) :- A(A),A(B),A(C),A(D),A(E).
   a='a', b='a', c='a', d='a', e='a'
-1 passes: R0
-SCC: R3
 DeaUoo(E,D,C,B,A) :- DeaWoo(A,B,C,D,E),A(B).
   a='a', b='a', c='a', d='a', e='a'
   a='a', b='a', c='b', d='a', e='a'
   a='b', b='a', c='a', d='a', e='a'
-1 passes: R3
-SCC: R4
 DeaVoo(E,D,C,B,A) :- DeaUoo(A,B,C,D,E),B(D).
-1 passes: R4
 
 Query Evaluation
 DeaUoo(A,B,C,D,E)? Yes(3)

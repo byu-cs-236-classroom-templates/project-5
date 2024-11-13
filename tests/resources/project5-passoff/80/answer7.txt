@@ -9,7 +9,6 @@ R6:
 R7:
 
 Rule Evaluation
-SCC: R7
 Roll(C,R,N,S,G) :- snap(S,N,A,P),csg(C,S,G),cr(C,R).
   c='CS101', r='Study', n='Charley', s='1234', g='A'
   c='CS101', r='Study', n='Lucy', s='1212', g='A-'
@@ -28,8 +27,6 @@ Roll(C,R,N,S,G) :- snap(S,N,A,P),csg(C,S,G),cr(C,R).
   c='PH100', r='Lab', n='Rerun', s='4321', g='C+'
   c='PH100', r='Lab', n='Snoopy', s='9876', g='C+'
   c='PH100', r='Lab', n='Woodstock', s='0000', g='A'
-1 passes: R7
-SCC: R6
 Grades(N,C,G) :- snap(S,N,A,P),csg(C,S,G).
   n='Charley', c='CS101', g='A'
   n='Charley', c='EE200', g='C'
@@ -48,8 +45,6 @@ Grades(N,C,G) :- snap(S,N,A,P),csg(C,S,G).
   n='Woodstock', c='CS101', g='A-'
   n='Woodstock', c='EE200', g='B'
   n='Woodstock', c='PH100', g='A'
-1 passes: R6
-SCC: R5
 Schedule(N,C,R,D,H) :- snap(S,N,A,P),csg(C,S,G),cr(C,R),cdh(C,D,H).
   n='Charley', c='CS101', r='Study', d='Tu', h='10AM'
   n='Charley', c='EE200', r='Hall', d='F', h='10AM'
@@ -80,18 +75,10 @@ Schedule(N,C,R,D,H) :- snap(S,N,A,P),csg(C,S,G),cr(C,R),cdh(C,D,H).
   n='Woodstock', c='EE200', r='Hall', d='M', h='10AM'
   n='Woodstock', c='EE200', r='Hall', d='W', h='1PM'
   n='Woodstock', c='PH100', r='Lab', d='Tu', h='11AM'
-1 passes: R5
-SCC: R4
 mwfCourses(C,R) :- cdh(C,'F',H),cr(C,R).
   c='EE200', r='Hall'
-1 passes: R4
-SCC: R3
 mwfCourses(C,R) :- cdh(C,'W',H),cr(C,R).
-1 passes: R3
-SCC: R2
 mwfCourses(C,R) :- cdh(C,'M',H),cr(C,R).
-1 passes: R2
-SCC: R0
 before(C1,C2) :- cp(C2,C1).
   cc1='CS100', cc2='CS101'
   cc1='CS100', cc2='EE200'
@@ -101,8 +88,6 @@ before(C1,C2) :- cp(C2,C1).
   cc1='CS121', cc2='CS206'
   cc1='CS205', cc2='CS206'
   cc1='EE005', cc2='EE200'
-1 passes: R0
-SCC: R1
 before(C1,C2) :- cp(C3,C1),before(C3,C2).
   cc1='CS100', cc2='CS120'
   cc1='CS100', cc2='CS205'
@@ -113,7 +98,6 @@ before(C1,C2) :- cp(C3,C1),before(C3,C2).
   cc1='CS100', cc2='CS121'
   cc1='CS100', cc2='CS206'
 before(C1,C2) :- cp(C3,C1),before(C3,C2).
-3 passes: R1
 
 Query Evaluation
 snap(S,N,A,P)? Yes(10)

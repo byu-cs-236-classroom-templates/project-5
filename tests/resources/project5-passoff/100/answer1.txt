@@ -4,7 +4,6 @@ R1:R0,R2
 R2:R0,R1
 
 Rule Evaluation
-SCC: R0,R1,R2
 G(b,a) :- H(b,a),F(b,a).
 F(a,b) :- G(a,b),H(a,b).
   A='2', B='3'
@@ -12,7 +11,6 @@ H(a,b) :- F(a,b),G(a,b).
 G(b,a) :- H(b,a),F(b,a).
 F(a,b) :- G(a,b),H(a,b).
 H(a,b) :- F(a,b),G(a,b).
-2 passes: R0,R1,R2
 
 Query Evaluation
 F(a,b)? Yes(2)
