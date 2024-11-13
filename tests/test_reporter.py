@@ -209,7 +209,7 @@ r(A,B)? Yes(3)
 
 def test_given_dependency_graph_rule_evals_query_evals_when_project_5_report_then_expected():
     # given
-    dependency_graph = {"R0": [], "R1": ["R2"], "R2": ["R0", "R1"]}
+    dependency_graph = {0: [], 1: [2], 2: [0, 1]}
     rule_0 = Rule(
         Predicate("r", [Parameter.id("E"), Parameter.id("F")]),
         [Predicate("f", [Parameter.id("E"), Parameter.id("F")])],

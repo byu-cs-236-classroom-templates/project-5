@@ -6,12 +6,16 @@ from project5.datalogprogram import Predicate, Rule
 from project5.relation import Relation, RelationTuple
 
 
-def _graph_to_str(graph: dict[str, list[str]]) -> str:
+def _graph_to_str(graph: dict[int, list[int]]) -> str:
     """The string representation of a dependency graph."""
 
-    def _graph_entry_to_str(src: str, dsts: list[str]) -> str:
-        dsts_str: str = ",".join([i for i in dsts])
-        return f"{src}:{dsts_str}"
+    def _rule_id_to_str(id: int) -> str:
+        return f"R{id}"
+
+    def _graph_entry_to_str(src: int, dsts: list[int]) -> str:
+        src_str: str = _rule_id_to_str(src)
+        dsts_str: str = ",".join([_rule_id_to_str(i) for i in dsts])
+        return f"{src_str}:{dsts_str}"
 
     return "\n".join([_graph_entry_to_str(i, j) for i, j in sorted(graph.items())])
 
@@ -52,7 +56,7 @@ def project_4_report(
 
 
 def project_5_report(
-    dependency_graph: dict[str, list[str]],
+    dependency_graph: dict[int, list[int]],
     rule_evals: list[tuple[Relation, Rule, Relation]],
     query_evals: list[tuple[Predicate, Relation]],
 ) -> str:
