@@ -6,6 +6,16 @@ from project5.datalogprogram import Predicate, Rule
 from project5.relation import Relation, RelationTuple
 
 
+def _graph_to_str(graph: dict[str, list[str]]) -> str:
+    """The string representation of a dependency graph."""
+
+    def _graph_entry_to_str(src: str, dsts: list[str]) -> str:
+        dsts_str: str = ",".join([i for i in dsts])
+        return f"{src}:{dsts_str}"
+
+    return "\n".join([_graph_entry_to_str(i, j) for i, j in sorted(graph.items())])
+
+
 def _is_only_strings(predicate: Predicate) -> bool:
     """True iff every parameter in the predicate is of type string."""
     return reduce(
@@ -50,10 +60,11 @@ def project_5_report(
 
     Assumes (and enforces) at least rule and at least one entry in each list.
     """
+    dependency_graph_str = _graph_to_str(dependency_graph)
     rule_reports = "\n".join([rule_report(i, j, k) for i, j, k in rule_evals])
     query_reports = "\n".join([query_report(i, j) for i, j in query_evals])
 
-    return f"Dependency Graph\n{dependency_graph}\n\nRule Evaluation\n{rule_reports}\n\nQuery Evaluation\n{query_reports}"
+    return f"Dependency Graph\n{dependency_graph_str}\n\nRule Evaluation\n{rule_reports}\n\nQuery Evaluation\n{query_reports}"
 
 
 def query_report(query: Predicate, answer: Relation) -> str:
