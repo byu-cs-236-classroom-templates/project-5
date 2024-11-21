@@ -1,15 +1,16 @@
 # Project 5
 
+**WARNING:** the type on the interface for `get_rule_dependency_graph` has changed from Project 4 to be `dict[int, list[int]]`. **You need to update the type from `dict[str, list[str]]` to `dict[int, list[int]]` after copying in the file from Project 4.**
 
-This project uses the `lexer` and `parser` functions from Project 1 and Project 2 to get an instance of a `DatalogProgram`. It also uses the `Interpreter.eval_schemes`, `Interpreter.eval_facts`, and `Interpreter.eval_queries` from Project 3. Project 5 must evaluate the rules in the Datalog program to add new facts to relations that exist in the database. This will be done by implementing the `Interpreter.eval_rule` function according to the algorithm specified in the project description on [learningsuite.byu.edu](http://learningsuite.byu.edu) in the _Content_ section under _Projects_ -> _Project 5_.
+Similar to Project 4, This project uses the `lexer` and `parser` functions from Project 1 and Project 2 to get an instance of a `DatalogProgram`. It also uses the `Interpreter.eval_schemes`, `Interpreter.eval_facts`, and `Interpreter.eval_queries` from Project 3.
 
-The rule evaluation **must be implemented with relational algebra.** No exceptions. Rule evaluation should re-use the existing code for `Interpreter.eval_query` from Project 3 to create intermediate relations.
+Project 5 differs from Project 4 in that it must implement the `Interpreter.eval_eval_rules_optimized` function according to the algorithm specified in the project description on [learningsuite.byu.edu](http://learningsuite.byu.edu) in the _Content_ section under _Projects_ -> _Project 5_. This algorithm groups rules into strongly connected components (SCC), orders the components by dependency, and then evaluates the rules in each component to a fix-point. Here each component is considered separate from the other components meaning that there is a fix-point computed for each component and components are evaluated in the dependency order. This grouping and ordering minimizes the number of times each rule is evaluated.
 
-Why do we use `Interpreter.eval_query` for evaluating rules? Consider this example rule: `R(X,Z) :- G(X,Y,'a'), R(Y,Z).` To evaluate this rule, we need to first compute the operands to the _join_ operation. The left operand is given by `G(X,Y,'a')` and the right operand is given by `R(Y,Z)`. Assuming that the relations are declared in the _Schemes_ section of the Datalog program as `G(A,B,C)` and `R(A,B)` respectively, then the relation for the left operand is `left = rename([X,Y], project([A,B], (select(C = 'a', G)))` and the relation for the right operand is `right = rename([Y,Z], project([A,B], R))`. These two operands are **the resulting relations when each operand is treated as a query**.
+You must track, and treat differently, _trivial_ SCCs. A trivial SCC is one that **only has a single rule and that rule does not depend on itself**. In other words, the rule does not have a self-loop in the dependency graph. If an SCC is trivial, then it only needs to be evaluated once! As such, the `Interpreter.eval_eval_rules_optimized` function should only yield one, and not two, evaluations for trivial SCCs. **All other non-trivial SCCs must iterate to a fix-point**.
 
-The `,` in the rule represents join. The head predicate in our rule, `R(X,Z)`, tells us how to format the final relation from the join: `project([X,Z], join(left, right))`. The tuples in this final relation are added to the relation `R` in the database. That may require a rename operation to use `Relation.union`. Rules are evaluated, in order, until no new facts are added to any of the relations in the database. The `Relation.union` relational operator must be used for Project 4. Whether you implemented union in Project 3 or will implement it in Project 4, you should include unit tests for this operation.
+You are expected to write tests for critical steps in the optimized algorithm. Specifically, you are expected to write tests for the dependency graph construction, finding the post-order rule ordering through a depth first search traversal, and computing SCCs. We recommend that the code for finding post-order numbers and computing SCCs be decoupled from the Datalog program and interpreter. Decoupling means that the code takes as input a dependency graph as specified by the `Interpreter.get_rule_dependency_graph` function. That graph has type `dict[int, list[int]]` where the key is the source rule and the list are the destination rules. An edge between rules is a dependency relation between the rules.
 
-**Before proceeding further, please review the Project 4 project description, lecture slides, and all of the associated Jupyter notebooks. You can thank us later for the suggestion.**
+**Before proceeding further, please review the Project 5 project description, lecture slides, and all of the associated Jupyter notebooks. You can thank us later for the suggestion.**
 
 ## Developer Setup
 
@@ -19,7 +20,7 @@ As in Project 3, the first step is to clone the repository created by GitHub Cla
 
 There is no need to install any vscode extensions. These should all still be present and active from the previous project. You do need to create the virtual environment, install the package, and install pre-commit. For a reminder to how that is done, see on [learningsuite.byu.edu](https://learningsuite.byu.edu) _Content_ &rarr; _Projects_ &rarr; _Projects Cheat Sheet_
 
-  * Create a virtual environment: **be sure to create it in the `project-3` folder.** `python -m venv .venv`
+  * Create a virtual environment: **be sure to create it in the `project-5` folder.** `python -m venv .venv`
   * Activate the virtual environment: `source .venv/bin/activate` or `.venv\Scripts\activate` for OSX and windows respectively.
   * Install the package in edit mode: `pip install --editable ".[dev]"`
   * Install pre-commit: `pre-commit install`
@@ -75,27 +76,20 @@ The project is divided into the following modules each representing a key compon
 
   * `src/project5/interpreter.py`: defines the `Interpreter` class with its interface.
   * `src/project5/project5.py`: defines the entry point for auto-grading and the command line entry point.
-  * `src/project5/relation.py`: defines the `Relation` class with its interface.
   * `src/project5/reporter.py`: defines functions for reporting the results of the interpreter.
 
 Each of the above files are specified with Python _docstrings_ and they also have examples defined with python _doctests_. A _docstring_ is a way to document Python code so that the command `help(project5.relation)` in the Python interpreter outputs information about the module with it's functions and classes. For functions, the docstrings give documentation when the mouse hovers over the function in vscode.
 
 ### interpreter.py
 
-The portion of the `Interpreter` class that needs to be implemented for Project 4 is `eval_rules`. The docstring describe what
-it should do. There are no provided tests. You are expected to write tests for the function before starting any implementation. There should a few tests that cover interesting inputs for rule evaluation. Justify why the set of tests are sufficient to give confidence in the implementation.
+The portion of the `Interpreter` class that needs to be implemented for Project 4 is `get_rule_dependency_graph` and `eval_rules_optimized`. The docstring describe what
+each should do. There are no provided tests. **You are expected to write tests for the dependency graph and anything related to computing SCCS.**
+
+**WARNING:** the type on the interface for `get_rule_dependency_graph` has changed from Project 4 to be `dict[int, list[int]]`. **You need to update the type from `dict[str, list[str]]` to `dict[int, list[int]]` after copying in the file from Project 4.**
 
 ### project5.py
 
 The entry point for the auto-grader and the `project5` command. See the docstrings for details.
-
-### relation.py
-
-The only part of the `Relation` class that needs to be implemented for Project 4 is `join` (hard). The docstring describe what the function should do. **You are expected to write one negative test for `join` and at least three positive tests: one for when there are no shared attributes, one for when all the attributes are shared, and one from when the is a mix of each.**
-
-You are expected to write one test, run it to see what happens (likely fail), and then write the code to pass that one test. Repeat the process for each test. As before, a negative test is one where an error is expected (e.g., bad operands to an operation).
-
-The `Relation.union` relational operator must be used for Project 4. Whether you implemented union in Project 3 or will implement it in Project 4, you should include unit tests for this operation.
 
 ### reporter.py
 
@@ -103,21 +97,17 @@ A module for output matching in the pass-off tests. It takes the interface defin
 
 ## Where to start
 
-Here is the suggested order for Project 4:
+Here is the suggested order for Project 5:
 
-1. Write a negative test that fails for `Relation.join`.
-1. Write code to pass the negative test.
-
-1. For a set of interesting inputs for `Relation.join` -- you must consider at least three unique tests: no shared attributes, attributes shared, and a mix of shared and not shared attributes:
-
-    1. Write a positive test that may fail (should fail the first test because no code has been written and may fail other tests depending on the code written for the first test).
-    1. Write code to pass the positive test.
-
-1. For a set of interesting inputs for `Interpreter.eval_rules` -- as a starting point consider if number of iterations to reach a fix-point matters in testing or if the number of rules being evaluated matters:
-
-    1. Write a positive test that may fail (should fail the first test because no code has been written and may fail other tests depending on the code written for the first test).
-    1. Write code to pass the positive test.
-
+1. Write a test for `get_rule_dependency_graph`
+1. Implement `get_rule_dependency_graph`
+1. Write a test for getting a reverse graph from a graph
+1. Implement the reverse graph function
+1. Write a test for computing the post-order sequence of nodes in a graph
+1. Implement the function to compute the post-order-sequence of nodes in a graph
+1. Write a test for computing SCCs for a graph
+1. Implement the computing SCCs function -- the function must use the reverse and post-order functions
+1. Write tests and implement `Interpreter.eval_rules_optimized`
 1. Run the pass-off tests -- debug as needed.
 
 ## Pass-off and Submission
