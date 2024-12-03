@@ -16,7 +16,7 @@ You are expected to write tests for critical steps in the optimized algorithm. S
 
 Be sure to read the [WARNING](#warning) and [Copy Files](#copy-files) sections.
 
-As in Project 3, the first step is to clone the repository created by GitHub Classroom when the assignment was accepted in a sensible directory. In the vscode terminal, `git clone <URL>` where `<URL>` is the one from GitHub Classroom after accepting the assignment. Or open a new vscode window, select _Clone Git Repository_, and paste the link they get when they hover over the "<> Code ▼" and copy the url
+As in the other projects, the first step is to clone the repository created by GitHub Classroom when the assignment was accepted in a sensible directory. In the vscode terminal, `git clone <URL>` where `<URL>` is the one from GitHub Classroom after accepting the assignment. Or open a new vscode window, select _Clone Git Repository_, and paste the link they get when they hover over the "<> Code ▼" and copy the url
 
 There is no need to install any vscode extensions. These should all still be present and active from the previous project. You do need to create the virtual environment, install the package, and install pre-commit. For a reminder to how that is done, see on [learningsuite.byu.edu](https://learningsuite.byu.edu) _Content_ &rarr; _Projects_ &rarr; _Projects Cheat Sheet_
 
@@ -48,7 +48,7 @@ The above should result in a `project5` executable that is run from the command 
 
 ### Copy Files
 
-Copy the below files from your solution to Project 3 into the `src/project5/` folder:
+Copy the below files from your solution to Project 4 into the `src/project5/` folder:
 
   * `datalogprogram.py`
   * `fsm.py`
