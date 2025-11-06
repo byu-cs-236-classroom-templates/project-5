@@ -18,6 +18,15 @@ You are expected to write tests for critical steps in the optimized algorithm. S
 
 **Before proceeding further, please review [OPT_RULES_INTERP.md](./docs/OPT_RULES_INTERP.md)**
 
+## Table of Contents
+
+- [Project Overview and Major Steps](#project-overview-and-major-steps)
+- [Developer Setup](#developer-setup)
+- [Project Requirements](#project-requirements)
+- [AI Policy for Project 5](#ai-policy-for-project-5)
+- [Code Quality](#code-quality)
+- [Submission And Grading](#submission-and-grading)
+
 ## Project Overview and Major Steps
 
 <img src="./docs/figs/project-5-diagram.png" alt="Optimized Rule Evaluation" width="915" />
@@ -47,19 +56,25 @@ The `token.py` file is unchanged here and should not be copied over. Other test 
 
 **You need to fix all the imports in the copied file to replace `project4` with `project5` in the import path. You also need to make these changes in all the docstring tests. We recommend the use of the search feature in `vscode`, the magnifying glass in the sidebar, to search for `project4` in all files.**
 
-
 ## Project Requirements
 
 1. The project must be completed individually -- there is no group work.
 1. Project pass-off is on GitHub. You will commit your final solution to the `master` branch of your local repository and then push that commit to GitHub. Multiple commits, and pushes, are allowed. A push triggers a GitHub action that is the auto-grader for pass-off. The TAs look at both the result of the auto-grader on GitHub and your code to determine your final score. _See the cautions in the `#project-3` channel of the class Discord server about how using format strings can cause problems with pass-offs._
+
+### Project 5a
 1. You must **use the math you did in Project 5a** to write tests in `tests/test_dependency_graph.py` for the functions relating to creating a dependency graph, reversing graphs, generating post-order traversal numbers, and computing SCCs.
+
+### Project 5b
 1. You may use AI to write the code to construct a dependency graph, reverse a graph, generating post-order traversal numbers, and computing SCCs.
 1. You must implement **without AI help** `Relation.eval_rules_optimized`.
 1. Your code must not report any issues with the following code quality tool run in the integrated `vscode` terminal from the root of the project directory: `pre-commit run --all-files`. This tool includes _type checking_, which means that type annotations are required in your code.
 1. Your code must pass each bucket in 150 seconds or less. If you have trouble meeting this requirement, see the FAQ in [RULES_INTERP.md](docs/RULES_INTERP.md).
 
+## AI Policy for Project
 
-## AI Policy for Project 5
+**Project 5a**: No AI is allowed.
+
+### Project 5b
 
 AI may be used to write code for the key steps for finding the SCCs that determine the optimized rule evaluation **after you have done the math, and written the tests, for each of the steps as required in Project 5a on learningsuite**:
   * (Already defined in `Relation`) `def get_rule_dependency_graph(self) -> dict[int, list[int]]`
@@ -74,8 +89,4 @@ Submit Project 5 for grading by doing the following:
 
   * Commit your solution on the master branch
   * Push the commit to GitHub -- that should trigger the auto-grader
-  * Goto [learningsuite.byu.edu](https://learningsuite.byu.edu) at _Assignments_ &rarr; _Projects_ &rarr; _Project 2_ to submit the following:
-    1. Your GitHub ID and Project 2 URL for grading.
-    1. A short paragraph outlining (a) how you prompted the AI to generate any code (if you used it) and (b) how you determined the quality and correctness of that code.
-    1. A screen shot showing no issues with `pre-commit run --all-files`.
-  * Confirm on the GitHub Actions pane that the pass-off tests passed, or alternatively, goto the Project 1 URL, find the green checkmark or red x, and click it to confirm the auto-grader score matches the pass-off results from your system.
+  * Goto [learningsuite.byu.edu](https://learningsuite.byu.edu) at _Assignments_, find the project, and follow the directions.
