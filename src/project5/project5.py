@@ -30,7 +30,7 @@ def project5(input_string: str) -> str:
         interpreter: Interpreter = Interpreter(datalog_program)
         interpreter.eval_schemes()
         interpreter.eval_facts()
-        depedency_graph = interpreter.get_rule_dependency_graph()
+        dependency_graph = interpreter.get_rule_dependency_graph()
 
         rule_evals: list[tuple[Relation, Rule, Relation]] = [
             i for i in interpreter.eval_rules_optimized()
@@ -38,7 +38,7 @@ def project5(input_string: str) -> str:
         query_evals: list[tuple[Predicate, Relation]] = [
             i for i in interpreter.eval_queries()
         ]
-        answer: str = project_5_report(depedency_graph, rule_evals, query_evals)
+        answer: str = project_5_report(dependency_graph, rule_evals, query_evals)
         return answer
     except UnexpectedTokenException as e:
         return "Failure!\n  " + str(e.token)
