@@ -3,10 +3,10 @@
 from sys import argv
 from typing import Iterator
 
-from project5.interpreter import Interpreter
 from project5.datalogprogram import DatalogProgram, Predicate, Rule
+from project5.interpreter import Interpreter
 from project5.lexer import lexer
-from project5.parser import parse, UnexpectedTokenException
+from project5.parser import UnexpectedTokenException, parse
 from project5.relation import Relation
 from project5.reporter import project_5_report
 from project5.token import Token

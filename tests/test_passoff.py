@@ -1,5 +1,6 @@
 # type: ignore
 import os
+
 from project5.project5 import project5 as compute
 
 _TEST_ROOT_DIR = "./tests/resources/project5-passoff/"

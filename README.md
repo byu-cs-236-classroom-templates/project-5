@@ -83,7 +83,7 @@ Each of the above files are specified with Python _docstrings_ and they also hav
 ### interpreter.py
 
 The portion of the `Interpreter` class that needs to be implemented for Project 4 is `get_rule_dependency_graph` and `eval_rules_optimized`. The docstring describe what
-each should do. There are no provided tests. **You are expected to write tests for the dependency graph and anything related to computing SCCS.**
+each should do. There are no provided tests. **You are expected to write tests for the dependency graph and anything related to computing SCCs.**
 
 **WARNING:** the type on the interface for `get_rule_dependency_graph` has changed from Project 4 to be `dict[int, list[int]]`. **You need to update the type from `dict[str, list[str]]` to `dict[int, list[int]]` after copying in the file from Project 4.**
 
