@@ -86,5 +86,6 @@ You must implement **without AI help** `Relation.eval_rules_optimized`
 Submit Project 5 for grading by doing the following:
 
   * Commit your solution on the master branch
-  * Push the commit to GitHub -- that should trigger the auto-grader
-  * Goto [learningsuite.byu.edu](https://learningsuite.byu.edu) at _Assignments_, find the project, and follow the directions.
+  * Push the commit to GitHub
+  * `gh student submit` (preferred) or `submit/*` tagged commit with `git` (not preferred) to trigger the auto-grader
+  * Goto [learningsuite.byu.edu](https://learningsuite.byu.edu) at _Assignments_, find the project, and follow the directions
