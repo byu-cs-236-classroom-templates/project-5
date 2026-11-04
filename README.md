@@ -1,7 +1,5 @@
 # Project 5
 
-**WARNING:** the type on the interface for `get_rule_dependency_graph` has changed from Project 4 to be `dict[int, list[int]]`. **You need to update the type from `dict[str, list[str]]` to `dict[int, list[int]]` after copying in the file from Project 4.**
-
 Similar to Project 4, This project uses the `lexer` and `parser` functions from Project 1 and Project 2 to get an instance of a `DatalogProgram`. It also uses the `Interpreter.eval_schemes`, `Interpreter.eval_facts`, and `Interpreter.eval_queries` from Project 3.
 
 Project 5 differs from Project 4 in that it must implement the `Interpreter.eval_eval_rules_optimized` function according to the algorithm specified in the project description on [learningsuite.byu.edu](http://learningsuite.byu.edu) in the _Content_ section under _Projects_ -> _Project 5_. This algorithm groups rules into strongly connected components (SCCs), orders the components by dependency, and then evaluates the rules in each component to a fix-point. Here each component is considered separate from the other components meaning that there is a fix-point computed for each component and components are evaluated in the dependency order. This grouping and ordering minimizes the number of times each rule is evaluated.
